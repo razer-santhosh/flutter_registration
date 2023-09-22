@@ -8,7 +8,7 @@ if (localPropertiesFile.exists()) {
 
 def flutterRoot = localProperties.getProperty('flutter.sdk')
 if (flutterRoot == null) {
-    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
+    throw GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
 }
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
@@ -20,47 +20,129 @@ def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
-
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+//apply plugin: 'com.google.gms.google-services'
 
 android {
-    namespace "com.example.flutter_registration"
-    compileSdkVersion flutter.compileSdkVersion
-    ndkVersion flutter.ndkVersion
-
+    namespace localProperties.getProperty('flutter.caddappid')
+    compileSdkVersion localProperties.getProperty('flutter.compileSdkVersion').toInteger()
+    ndkVersion localProperties.getProperty('flutter.ndkVersion')
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = '11'
     }
 
-    kotlinOptions {
-        jvmTarget = '1.8'
+
+
+    defaultConfig {
+        multiDexEnabled true
+        // TO DO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+        applicationId localProperties.getProperty('flutter.caddappid')
+//        // You can update the following values to match your application needs.
+//        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
+//        minSdkVersion localProperties.getProperty('flutter.minSdkVersion').toInteger()
+//        targetSdkVersion localProperties.getProperty('flutter.targetSdkVersion').toInteger()
+//        versionCode flutterVersionCode.toInteger()
+//        versionName flutterVersionName
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        ndk {
+            //noinspection ChromeOsAbiSupport
+            abiFilters 'x86_64', 'armeabi-v7a', 'arm64-v8a'
+        }
+    }
+
+
+    signingConfigs {
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+            storePassword keystoreProperties['storePassword']
+        }
+    }
+    buildTypes {
+        release {
+            // TO DO: Add your own signing config for the release build.
+            // Signing with the debug keys for now, so `flutter run --release` works.
+            // signingConfig signingConfigs.debug
+            debuggable false
+            signingConfig signingConfigs.release
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            debuggable true
+            signingConfig signingConfigs.release
+        }
+    }
+    flavorDimensions "student"
+    productFlavors {
+        caddcentre {
+            applicationId localProperties.getProperty('flutter.caddappid')
+            dimension "student"
+            // You can update the following values to match your application needs.
+            // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
+            minSdkVersion localProperties.getProperty('flutter.minSdkVersion').toInteger()
+            targetSdkVersion localProperties.getProperty('flutter.targetSdkVersion').toInteger()
+            versionCode flutterVersionCode.toInteger()
+            versionName flutterVersionName
+            resValue "string", "app_name", "CADD Centre"
+//            buildConfigField "String", "CUSTOM_BRAND_STRING", "CADDCentre"
+        }
+        livewire {
+            applicationId localProperties.getProperty('flutter.livewireappid')
+            dimension "student"
+            // You can update the following values to match your application needs.
+            // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
+            minSdkVersion localProperties.getProperty('flutter.minSdkVersion').toInteger()
+            targetSdkVersion localProperties.getProperty('flutter.targetSdkVersion').toInteger()
+            versionCode flutterVersionCode.toInteger()
+            versionName flutterVersionName
+            resValue "string", "app_name", "LIVEWIRE"
+//            buildConfigField "String", "CUSTOM_BRAND_STRING", "LIVEWIRE"
+        }
+        synergy {
+            applicationId localProperties.getProperty('flutter.synergyappid')
+            dimension "student"
+            // You can update the following values to match your application needs.
+            // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
+            minSdkVersion localProperties.getProperty('flutter.minSdkVersion').toInteger()
+            targetSdkVersion localProperties.getProperty('flutter.targetSdkVersion').toInteger()
+            versionCode flutterVersionCode.toInteger()
+            versionName flutterVersionName
+            resValue "string", "app_name", "SYNERGY SBS"
+//            buildConfigField "String", "CUSTOM_BRAND_STRING", "SYNERGY SBS"
+        }
     }
 
     sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
-    }
-
-    defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.flutter_registration"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion 18
-        targetSdkVersion flutter.targetSdkVersion
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
-    }
-
-    buildTypes {
-        release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
+        caddcentre {
+            res.srcDirs = ['src/caddcentre/res']
         }
+        livewire {
+            res.srcDirs = ['src/livewire/res']
+        }
+        synergy {
+            res.srcDirs = ['src/synergy/res']
+        }
+
     }
+
+    lint {
+        checkReleaseBuilds false
+    }
+    buildToolsVersion '33.0.0'
 }
 
 flutter {
@@ -68,5 +150,28 @@ flutter {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation fileTree(dir: 'libs', include: ['*.jar', '*.so', '**/*.so'])
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.github.yalantis:ucrop:2.2.8'
+    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'com.google.android.gms:play-services-auth:20.6.0'
+    implementation 'com.android.installreferrer:installreferrer:2.2'
+    implementation 'androidx.activity:activity-ktx:1.7.2'
+    implementation 'androidx.annotation:annotation:1.6.0'
+    //implementation 'com.google.android.gms:play-services-auth:20.4.1'
+//    implementation "androidx.multidex:multidex:2.0.1"
+    // implementation 'com.facebook.android:facebook-login:16.0.1'
+    // implementation platform('com.google.firebase:firebase-bom:31.2.2')
+    // implementation 'com.google.firebase:firebase-analytics-ktx'
+    // implementation ('com.google.firebase:firebase-core') {
+    //     exclude group: 'com.google.android.gms', module : 'play-services-ads-identifier'
+    // }
+    // implementation ('com.google.firebase:firebase-messaging') {
+    //     exclude group: 'com.google.android.gms', module : 'play-services-ads-identifier'
+    // }
+    // implementation ('com.google.firebase:firebase-analytics') {
+    //     exclude group: 'com.google.android.gms', module : 'play-services-ads-identifier'
+    // }
 }
+

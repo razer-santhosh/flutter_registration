@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "566730269468",
+    "project_id": "cadd-1d836",
+    "storage_bucket": "cadd-1d836.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:566730269468:android:9dfa79ffe4163ddb06d0d9",
+        "android_client_info": {
+          "package_name": "com.caddcentre.lms"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "566730269468-qqq1dsjun5fph3m01kcses02lberaide.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.caddcentre.lms",
+            "certificate_hash": "398b6e433226a3ec4d3165b7db76efa51fd105a5"
+          }
+        },
+        {
+          "client_id": "566730269468-ovu1gg1ppck4ff4o4jrnikjdod27895m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBEKyXRaWjA0BXJ2BUP5PD4afJ1KSlgLhQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "566730269468-ovu1gg1ppck4ff4o4jrnikjdod27895m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

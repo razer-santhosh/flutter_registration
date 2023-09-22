@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <base-config cleartextTrafficPermitted="false" />
+    <domain-config>
+        <domain includeSubdomains="true">api.caddcentre.com</domain>
+        <trust-anchors>
+            <certificates src="@raw/api_caddcentre"/>
+        </trust-anchors>
+        <domain includeSubdomains="true">partner.caddcentre.com</domain>
+        <trust-anchors>
+            <certificates src="@raw/partner_caddcentre"/>
+        </trust-anchors>
+        <domain includeSubdomains="true">lms.caddcentre.com</domain>
+        <trust-anchors>
+            <certificates src="@raw/lms_caddcentre"/>
+        </trust-anchors>
+        <domain includeSubdomains="true">api.vimeo.com</domain>
+</domain-config>
+</network-security-config>

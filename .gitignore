@@ -31,6 +31,7 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
+/private_key.pepk
 
 # Symbolication related
 app.*.symbols
@@ -42,3 +43,18 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+/android/app/caddcentre/
+/android/app/caddcentre/release/
+
+
+# Constant related
+lib/firebase/firebase_options.dart
+
+#Envied
+*.env
+lib/env/env.g.dart
+# Ignore Gradle project-specific cache directory
+.gradle
+
+# Ignore Gradle build output directory
+build

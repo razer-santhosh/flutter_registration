@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+    <string name="app_name" >livewire</string>
+    <string name="app_display_name" >LIVEWIRE - Student App</string>
+    <!-- <string name="facebook_app_id" >745894267132610</string>
+     <string name="fb_login_protocol_scheme" >fb745894267132610</string>
+     <string name="facebook_client_token">ce1393b9ccae63ca32f17acfcd86660d</string>-->
+</resources>
